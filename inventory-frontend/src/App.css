@@ -13,6 +13,70 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.form-container {
+  margin-bottom: 20px;
+}
+
+.form-input {
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid #61dafb;
+  border-radius: 5px;
+  width: 200px;
+  font-size: 1rem;
+}
+
+.form-button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #4da3d4;
+}
+
+.item-table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.item-table th, .item-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  background-color: rgb(26, 25, 25); /* Uniform background for cells */
+}
+
+.item-table th {
+  background-color: #61dafb;
+  color: #282c34;
+  font-size: 1.1rem;
+}
+
+.item-table tr {
+  background-color: #817575; /* Uniform background for rows */
+}
+
+.item-table tr:hover {
+  background-color: #6c6363; /* Hover effect for rows */
+}
+
+.item-list-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff4d4d;
+  color: white;
+  cursor: pointer;
+}
+
+.item-list-button:hover {
+  background-color: #cc0000;
 }

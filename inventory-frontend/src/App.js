@@ -62,10 +62,18 @@ const App = () => {
     }
   };
 
+  // Function to format price as currency
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 2
+    }).format(price);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src="logo.svg" className="App-logo" alt="logo" />
         <h1>Inventario</h1>
         <div className="form-container">
           <input
@@ -93,19 +101,33 @@ const App = () => {
             Agregar
           </button>
         </div>
-        <ul className="item-list">
-          {items.map((item) => (
-            <li key={item.id} className="item-list-item">
-              {item.name} - {item.quantity} - ${item.price}
-              <button
-                className="item-list-button"
-                onClick={() => deleteItem(item.id)}
-              >
-                Eliminar
-              </button>
-            </li>
-          ))}
-        </ul>
+        <table className="item-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>Precio</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((item) => (
+              <tr key={item.id}>
+                <td>{item.name}</td>
+                <td>{item.quantity}</td>
+                <td>{formatPrice(item.price)}</td>
+                <td>
+                  <button
+                    className="item-list-button"
+                    onClick={() => deleteItem(item.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </header>
     </div>
   );
