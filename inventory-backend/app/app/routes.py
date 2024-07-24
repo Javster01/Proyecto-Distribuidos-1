@@ -1,14 +1,18 @@
 from flask import Blueprint, request, jsonify, current_app
+from flask_cors import CORS  # Importa CORS
 
 # Define el Blueprint
 bp = Blueprint('main', __name__)
+
+# Inicializa CORS en el Blueprint
+CORS(bp)
 
 @bp.route('/items', methods=['GET'])
 def get_items():
     cursor = current_app.mysql.connection.cursor()
     cursor.execute("SELECT * FROM items")
     items = cursor.fetchall()
-    print("Fetched items:", items)  # Log de los items obtenidos
+    #print("Fetched items:", items)  # Log de los items obtenidos
     return jsonify(items), 200
 
 @bp.route('/items/<int:item_id>', methods=['GET'])
