@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./App.css"; // Asegúrate de importar el archivo CSS
+import "./App.css"; // Import the CSS file for styling
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -8,34 +8,59 @@ const App = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
 
+  // Fetch items from the API on component mount
   useEffect(() => {
     fetchItems();
   }, []);
 
+  // Function to fetch items from the API
   const fetchItems = async () => {
-    const response = await axios.get("http://localhost:5000/items");
-    setItems(response.data);
+    try {
+      const response = await axios.get("http://localhost:5000/items");
+      console.log("Fetched items:", response.data); // Log fetched items for debugging
+
+      // Assuming each item is an array with [id, name, quantity, price]
+      const formattedItems = response.data.map(itemArray => ({
+        id: itemArray[0],
+        name: itemArray[1],
+        quantity: itemArray[2],
+        price: itemArray[3]
+      }));
+
+      setItems(formattedItems);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
   };
 
+  // Function to add a new item
   const addItem = async () => {
-    const newItem = { name, quantity, price };
-    await axios.post("http://localhost:5000/items", newItem);
-    fetchItems();
-    setName("");
-    setQuantity("");
-    setPrice("");
+    if (!name || !quantity || !price) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const newItem = { name, quantity: Number(quantity), price: Number(price) };
+    try {
+      await axios.post("http://localhost:5000/items", newItem);
+      fetchItems();
+      setName("");
+      setQuantity("");
+      setPrice("");
+    } catch (error) {
+      console.error("Error adding item:", error);
+    }
   };
 
+  // Function to delete an item
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://localhost:5000/items/${id}`);
       fetchItems();
     } catch (error) {
-      console.error("Error al borrar el elemento:", error);
-      // Aquí podrías mostrar un mensaje de error al usuario, si es necesario.
+      console.error("Error deleting item:", error);
     }
   };
-
 
   return (
     <div className="App">
@@ -74,7 +99,7 @@ const App = () => {
               {item.name} - {item.quantity} - ${item.price}
               <button
                 className="item-list-button"
-                onClick={async () => await deleteItem(item.id)}
+                onClick={() => deleteItem(item.id)}
               >
                 Eliminar
               </button>
